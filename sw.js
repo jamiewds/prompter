@@ -1,4 +1,4 @@
-const CACHE = "prompter-v6";
+const CACHE = "prompter-v7";
 const ASSETS = ["./", "index.html", "manifest.json", "icon-180.png", "icon-512.png"];
 
 self.addEventListener("install", e => {
