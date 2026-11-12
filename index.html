@@ -47,6 +47,12 @@ button{cursor:pointer}
 .btn.icon{width:40px;height:40px;padding:0;display:inline-grid;place-items:center}
 .btn.danger{color:var(--danger)}
 #menuToggle{display:none}
+#sidebar h1{display:flex;align-items:center;gap:10px}
+#sidebar h1 img{width:32px;height:32px;border-radius:8px}
+.standalone #editor{padding-top:max(var(--safe-t),24px)}
+.standalone #topbar{padding-top:max(calc(10px + var(--safe-t)),34px)}
+#buildInfo{display:flex;gap:10px;align-items:center}
+#updateBtn{background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:12px;padding:3px 9px}
 
 @media (max-width:760px){
   #sidebar{position:fixed;inset:0 auto 0 0;z-index:5;transform:translateX(-100%);transition:transform .2s;padding-top:var(--safe-t)}
@@ -123,7 +129,7 @@ button{cursor:pointer}
 <div id="editor">
   <aside id="sidebar">
     <header>
-      <h1>Scripts</h1>
+      <h1><img src="icon-180.png" alt="">Scripts</h1>
       <button class="btn icon" id="newBtn" title="New script" aria-label="New script">＋</button>
     </header>
     <ul id="scriptList"></ul>
@@ -145,7 +151,7 @@ button{cursor:pointer}
 Tips:
 [pause] – a line in square brackets shows as a dim cue
 **bold** and *italic* work in the prompter"></textarea>
-    <div id="statusbar"><span id="wordCount">0 words</span><span id="readTime">~0:00 read at 150 wpm</span></div>
+    <div id="statusbar"><span id="wordCount">0 words</span><span id="readTime">~0:00 read at 150 wpm</span><span id="buildInfo"><span id="buildTxt"></span><button id="updateBtn">Update</button></span></div>
   </section>
   <input type="file" id="fileIn" class="hidden" accept=".txt,.md,.text,.docx,.json,text/plain" multiple>
 </div>
@@ -802,6 +808,15 @@ window.addEventListener("keydown", e => {
 });
 
 window.addEventListener("resize", () => { if (!prompter.classList.contains("hidden")) { const f = maxPos ? pos/maxPos : 0; measure(); pos = f*maxPos; draw(); } });
+
+const BUILD = 6;
+if (navigator.standalone || matchMedia("(display-mode: standalone)").matches) document.documentElement.classList.add("standalone");
+$("#buildTxt").textContent = "Build " + BUILD;
+$("#updateBtn").onclick = async () => {
+  try { const r = await navigator.serviceWorker?.getRegistrations(); await Promise.all((r || []).map(x => x.unregister())); } catch {}
+  try { const k = await caches.keys(); await Promise.all(k.map(c => caches.delete(c))); } catch {}
+  location.href = location.pathname + "?v=" + Date.now();
+};
 
 loadActive();
 
