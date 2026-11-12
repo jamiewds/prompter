@@ -177,6 +177,8 @@ Tips:
       <button class="toggle" id="mirrorXBtn" title="Mirror horizontally">Mirror ⇋</button>
       <button class="toggle" id="mirrorYBtn" title="Flip vertically">Flip ⇵</button>
       <button class="toggle" id="fsBtn" title="Fullscreen">⛶</button>
+      <button class="toggle rec" id="recBtn">● Rec</button>
+      <button class="toggle" id="moreBtn">⚙ More</button>
     </div>
   </div>
 
@@ -187,8 +189,6 @@ Tips:
       <div class="grp"><label>Size</label><input type="range" id="size" min="24" max="160" step="2"><span class="val" id="sizeVal"></span></div>
       <div class="grp"><label>Margin</label><input type="range" id="margin" min="0" max="30" step="1"><span class="val" id="marginVal"></span></div>
       <div class="grp"><label>Line</label><input type="range" id="guidePos" min="10" max="70" step="1"><span class="val" id="guideVal"></span></div>
-      <button class="toggle rec" id="recBtn">● Rec</button>
-      <button class="toggle" id="moreBtn">⚙ More</button>
     </div>
     <div id="more" class="row hidden">
       <div class="grp"><label>Font</label>
@@ -809,7 +809,7 @@ window.addEventListener("keydown", e => {
 
 window.addEventListener("resize", () => { if (!prompter.classList.contains("hidden")) { const f = maxPos ? pos/maxPos : 0; measure(); pos = f*maxPos; draw(); } });
 
-const BUILD = 10;
+const BUILD = 11;
 if (navigator.standalone || matchMedia("(display-mode: standalone)").matches) document.documentElement.classList.add("standalone");
 $("#buildTxt").textContent = "Build " + BUILD;
 $("#updateBtn").onclick = async () => {
