@@ -111,6 +111,9 @@ button{cursor:pointer}
 #toast{position:absolute;top:calc(60px + var(--safe-t));left:50%;transform:translateX(-50%);z-index:30;background:rgba(30,30,34,.95);
   padding:10px 16px;border-radius:10px;font-size:14px;max-width:80vw;text-align:center;color:#fff}
 #recDone{position:absolute;inset:0;z-index:40;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;color:#fff}
+#editPane{position:absolute;inset:0;z-index:50;background:#111;color:#fff;display:flex;flex-direction:column;padding-top:var(--safe-t);padding-bottom:var(--safe-b)}
+#editPane .ehead{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+#editArea{flex:1;width:100%;background:transparent;border:0;outline:none;resize:none;padding:18px 22px;font-size:20px;line-height:1.6;color:#eee}
 #recDone video{max-width:min(90vw,700px);max-height:55vh;border-radius:12px;background:#000}
 </style>
 </head>
@@ -164,6 +167,7 @@ Tips:
     <button class="btn" id="exitBtn">✕ Done</button>
     <span id="timer"><span id="recDot"></span><span id="timerTxt">0:00</span></span>
     <div class="grp">
+      <button class="toggle" id="editBtn" title="Edit script">✎ Edit</button>
       <button class="toggle" id="mirrorXBtn" title="Mirror horizontally">Mirror ⇋</button>
       <button class="toggle" id="mirrorYBtn" title="Flip vertically">Flip ⇵</button>
       <button class="toggle" id="fsBtn" title="Fullscreen">⛶</button>
@@ -205,6 +209,14 @@ Tips:
       <button class="btn" id="rewindBtn">⏮ Top</button>
       <button class="btn" id="resetBtn">Reset look</button>
     </div>
+  </div>
+  <div id="editPane" class="hidden">
+    <div class="ehead">
+      <button class="btn" id="editCancel">Cancel</button>
+      <strong>Edit script</strong>
+      <button class="btn primary" id="editDone">Done</button>
+    </div>
+    <textarea id="editArea" spellcheck="true" autocapitalize="sentences"></textarea>
   </div>
   <div id="recDone" class="hidden">
     <video id="recVideo" controls playsinline></video>
@@ -602,6 +614,45 @@ $("#recShare").onclick = () => {
 };
 $("#recClose").onclick = () => { $("#recDone").classList.add("hidden"); const v = $("#recVideo"); URL.revokeObjectURL(v.src); v.removeAttribute("src"); recBlob = null; };
 
+/* ---------- Quick edit (keeps your place) ---------- */
+const alnum = t => (t.match(/[\p{L}\p{N}]/gu) || []).length;
+const isAlnum = ch => /[\p{L}\p{N}]/u.test(ch);
+const editPane = $("#editPane"), editArea = $("#editArea");
+function charsBefore(el){ const r = document.createRange(); r.setStart(textEl, 0); r.setEndBefore(el); return alnum(r.toString()); }
+function openEdit(){
+  pause();
+  let k;
+  const cur = words.find(w => w.el.offsetTop >= pos - settings.size * 0.2);
+  k = cur ? charsBefore(cur.el) : alnum(textEl.textContent);
+  const body = active().body;
+  let c = 0, i = 0;
+  for (; i < body.length; i++) if (isAlnum(body[i])) { if (c === k) break; c++; }
+  editPane.classList.remove("hidden");
+  editArea.value = body.slice(0, i);
+  const h = editArea.scrollHeight;
+  editArea.value = body;
+  editArea.scrollTop = Math.max(0, h - editArea.clientHeight * 0.3);
+  try { editArea.setSelectionRange(i, i); } catch {}
+}
+function closeEdit(save){
+  if (save) {
+    const s = active(), sel = editArea.selectionStart || 0;
+    s.body = editArea.value; s.updated = Date.now(); saveScripts();
+    const k2 = alnum(s.body.slice(0, sel));
+    renderText(); applySettings();
+    if (words.length) {
+      let lo = 0, hi = words.length - 1;       // last word whose preceding char count <= k2
+      while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (charsBefore(words[mid].el) <= k2) lo = mid; else hi = mid - 1; }
+      wordIdx = lo; pos = Math.min(maxPos, words[lo].el.offsetTop);
+    } else pos = 0;
+    voiceTarget = pos; draw();
+  }
+  editPane.classList.add("hidden"); editArea.blur(); showHud();
+}
+$("#editBtn").onclick = openEdit;
+$("#editCancel").onclick = () => closeEdit(false);
+$("#editDone").onclick = () => closeEdit(true);
+
 /* ---------- Playback ---------- */
 function play(){
   if (playing || cdTimer) return;
@@ -647,10 +698,10 @@ function closePrompter(){
   pause(); cancelAnimationFrame(raf); releaseWake();
   stopCamera();
   if (document.fullscreenElement) document.exitFullscreen?.();
-  $("#recDone").classList.add("hidden");
+  $("#recDone").classList.add("hidden"); editPane.classList.add("hidden");
   prompter.classList.add("hidden");
   $("#editor").classList.remove("hidden");
-  renderList();
+  loadActive();
 }
 $("#startBtn").onclick = openPrompter;
 $("#exitBtn").onclick = closePrompter;
@@ -685,13 +736,13 @@ for (const [id, key] of [["speed","speed"],["size","size"],["margin","margin"],[
 $("#font").onchange = e => { const f = maxPos ? pos / maxPos : 0; settings.font = e.target.value; saveSettings(); applySettings(); pos = f * maxPos; draw(); };
 for (const k of ["color","bg","hl"]) $("#"+k).addEventListener("input", e => { settings[k] = e.target.value; saveSettings(); applySettings(); });
 $("#duration").addEventListener("input", e => { settings.duration = Math.max(0, +e.target.value || 0); saveSettings(); applySettings(); });
-[hud, topbar, $("#recDone")].forEach(el => el.addEventListener("pointerdown", e => { e.stopPropagation(); showHud(); }));
+[hud, topbar, $("#recDone"), editPane].forEach(el => el.addEventListener("pointerdown", e => { e.stopPropagation(); showHud(); }));
 
 /* Touch: tap = play/pause, drag = scrub, pinch = font size */
 const pointers = new Map();
 let dragStartY = 0, dragStartPos = 0, moved = false, pinchStart = 0, pinchSize = 0;
 prompter.addEventListener("pointerdown", e => {
-  if (hud.contains(e.target) || topbar.contains(e.target) || $("#recDone").contains(e.target)) return;
+  if (hud.contains(e.target) || topbar.contains(e.target) || $("#recDone").contains(e.target) || editPane.contains(e.target)) return;
   pointers.set(e.pointerId, [e.clientY, e.clientX]);
   if (pointers.size === 1) { dragStartY = e.clientY; dragStartPos = pos; moved = false; }
   if (pointers.size === 2) { pinchStart = pinchDist(); pinchSize = settings.size; moved = true; }
