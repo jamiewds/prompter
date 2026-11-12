@@ -49,7 +49,7 @@ button{cursor:pointer}
 #menuToggle{display:none}
 #sidebar h1{display:flex;align-items:center;gap:10px}
 #sidebar h1 img{width:32px;height:32px;border-radius:8px}
-#editor{padding-top:max(env(safe-area-inset-top,0px),44px)}
+#editor{padding-top:max(env(safe-area-inset-top,0px),28px)}
 
 #buildInfo{display:flex;gap:10px;align-items:center}
 #updateBtn{background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:12px;padding:3px 9px}
@@ -102,7 +102,7 @@ button{cursor:pointer}
 #hud input[type=color]{width:34px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);padding:2px}
 #playBtn{width:64px;height:64px;border-radius:50%;font-size:26px}
 #topbar{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:8px;
-  padding:max(calc(16px + env(safe-area-inset-top,0px)),76px) 16px 14px;transition:opacity .25s;background:linear-gradient(rgba(0,0,0,.55),transparent)}
+  padding:max(calc(16px + env(safe-area-inset-top,0px)),28px) 16px 14px;transition:opacity .25s;background:linear-gradient(rgba(0,0,0,.55),transparent)}
 #topbar.faded{opacity:0;pointer-events:none}
 #progress{position:absolute;top:0;left:0;height:3px;background:var(--accent);z-index:11;width:0}
 #timer{font-variant-numeric:tabular-nums;color:#ccc;font-size:15px;background:rgba(0,0,0,.6);padding:6px 10px;border-radius:8px;white-space:nowrap}
@@ -809,7 +809,7 @@ window.addEventListener("keydown", e => {
 
 window.addEventListener("resize", () => { if (!prompter.classList.contains("hidden")) { const f = maxPos ? pos/maxPos : 0; measure(); pos = f*maxPos; draw(); } });
 
-const BUILD = 9;
+const BUILD = 10;
 if (navigator.standalone || matchMedia("(display-mode: standalone)").matches) document.documentElement.classList.add("standalone");
 $("#buildTxt").textContent = "Build " + BUILD;
 $("#updateBtn").onclick = async () => {
