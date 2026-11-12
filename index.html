@@ -87,20 +87,39 @@ button{cursor:pointer}
 #fadeTop{top:0;background:linear-gradient(var(--bg),transparent)}
 #fadeBot{bottom:0;background:linear-gradient(transparent,var(--bg))}
 
-#hud{position:absolute;left:0;right:0;bottom:0;z-index:10;padding:14px 18px calc(14px + env(safe-area-inset-bottom,0px));
-  background:rgba(14,15,17,.93);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-  border-top:1px solid var(--line);color:#fff;transition:opacity .25s, transform .25s;max-height:70vh;overflow:auto}
+#hud{position:absolute;left:0;right:0;bottom:0;z-index:10;padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));
+  background:rgba(14,15,17,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);color:#fff;transition:opacity .25s, transform .25s}
 #hud.faded{opacity:0;transform:translateY(20px);pointer-events:none}
+.bar{display:flex;align-items:center;gap:12px}
+.bar .sp{flex:1}
+.ibtn{width:46px;height:46px;border-radius:12px;background:transparent;border:0;color:#fff;font-size:22px;display:inline-grid;place-items:center;flex:none}
+.ibtn.on{color:var(--accent)}
+.ibtn:active{background:rgba(255,255,255,.1)}
+#playBtn{background:var(--accent);color:#000;border:0;border-radius:999px;padding:0 30px;height:46px;font-weight:800;letter-spacing:.06em;font-size:16px;min-width:112px}
+#speedWrap{display:flex;align-items:center;gap:10px;flex:0 1 330px}
+#speedWrap input{flex:1;min-width:90px;accent-color:var(--accent)}
+#speedWrap .em{font-size:22px}
+#speedVal{min-width:30px;text-align:right;font-variant-numeric:tabular-nums;font-size:16px}
+#more{position:absolute;left:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:370px;max-width:calc(100vw - 32px);max-height:calc(100% - 190px);overflow:auto;
+  z-index:15;background:#1c1d21;border:1px solid var(--line);border-radius:22px;padding:14px 14px 18px;color:#fff;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.phead{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 6px}
+.phead strong{font-size:17px;flex:1;text-align:center;margin-left:40px}
+.check{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#000;border:0;font-size:20px;font-weight:800}
+.sec{font-size:13px;color:var(--muted);margin:14px 8px 6px}
+.card{background:#26282d;border-radius:14px;overflow:hidden}
+.srow{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid #34363b;min-height:48px;font-size:16px}
+.srow:last-child{border-bottom:0}
+.srow>span:first-child{flex:none;min-width:86px}
+.srow input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+.srow .val{min-width:40px;text-align:right;font-variant-numeric:tabular-nums;font-size:14px;color:#bbb}
+.srow select,.srow input[type=number],.pill{margin-left:auto;background:#34363b;border:0;border-radius:9px;padding:7px 11px;font-size:15px;color:#fff}
+.srow input[type=number]{width:84px;text-align:right}
+.srow input[type=color]{margin-left:auto;width:42px;height:32px;border:0;border-radius:9px;background:#34363b;padding:2px}
+.sw{margin-left:auto;flex:none;width:51px;height:31px;border-radius:16px;background:#3d3f45;border:0;position:relative;transition:background .2s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;transition:left .2s}
+.sw.on{background:#34c759}.sw.on::after{left:22px}
 .row{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center}
-#more{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
-.grp{display:flex;align-items:center;gap:10px}
-#hud label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-#hud input[type=range]{width:140px;accent-color:var(--accent)}
-#hud .val{min-width:34px;text-align:right;font-variant-numeric:tabular-nums;font-size:14px}
-#hud select,#hud input[type=number]{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:14px}
-#hud input[type=number]{width:70px}
-#hud input[type=color]{width:34px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);padding:2px}
-#playBtn{width:64px;height:64px;border-radius:50%;font-size:26px}
 #topbar{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:8px;
   padding:max(calc(16px + env(safe-area-inset-top,0px)),28px) 16px 14px;transition:opacity .25s;background:linear-gradient(rgba(0,0,0,.55),transparent)}
 #topbar.faded{opacity:0;pointer-events:none}
@@ -109,6 +128,7 @@ button{cursor:pointer}
 #recDot{display:none;width:10px;height:10px;border-radius:50%;background:#f33;margin-right:6px;animation:b 1s infinite}
 .recording #recDot{display:inline-block}
 @keyframes b{50%{opacity:.2}}
+#pTitle{font-size:16px;font-weight:600;max-width:34vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .toggle{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:14px;color:#fff}
 .toggle.on{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
 .toggle.rec.on{background:#e33;border-color:#e33;color:#fff}
@@ -170,50 +190,66 @@ Tips:
   <div id="toast" class="hidden"></div>
 
   <div id="topbar">
-    <button class="btn" id="exitBtn">✕ Done</button>
+    <div class="grp"><button class="btn" id="exitBtn" aria-label="Back">‹ Back</button><span id="pTitle"></span></div>
     <span id="timer"><span id="recDot"></span><span id="timerTxt">0:00</span></span>
     <div class="grp">
-      <button class="toggle" id="editBtn" title="Edit script">✎ Edit</button>
-      <button class="toggle" id="mirrorXBtn" title="Mirror horizontally">Mirror ⇋</button>
-      <button class="toggle" id="mirrorYBtn" title="Flip vertically">Flip ⇵</button>
-      <button class="toggle" id="fsBtn" title="Fullscreen">⛶</button>
       <button class="toggle rec" id="recBtn">● Rec</button>
-      <button class="toggle" id="moreBtn">⚙ More</button>
+      <button class="toggle" id="editBtn" title="Edit script">✎ Edit</button>
     </div>
   </div>
 
-  <div id="hud">
-    <div class="row">
-      <button class="btn primary" id="playBtn" aria-label="Play">▶</button>
-      <div class="grp"><label>Speed</label><input type="range" id="speed" min="1" max="100" step="1"><span class="val" id="speedVal"></span></div>
-      <div class="grp"><label>Size</label><input type="range" id="size" min="24" max="160" step="2"><span class="val" id="sizeVal"></span></div>
-      <div class="grp"><label>Margin</label><input type="range" id="margin" min="0" max="30" step="1"><span class="val" id="marginVal"></span></div>
-      <div class="grp"><label>Line</label><input type="range" id="guidePos" min="10" max="70" step="1"><span class="val" id="guideVal"></span></div>
-    </div>
-    <div id="more" class="row hidden">
-      <div class="grp"><label>Font</label>
+  <div id="more" class="hidden">
+    <div class="phead"><strong>Settings</strong><button class="check" id="moreClose" aria-label="Close">✓</button></div>
+    <div class="sec">Text</div>
+    <div class="card">
+      <div class="srow"><span>Font</span>
         <select id="font">
-          <option value="system">System</option>
-          <option value="serif">Serif</option>
-          <option value="rounded">Rounded</option>
-          <option value="mono">Mono</option>
-          <option value="wide">Wide (readable)</option>
-          <option value="condensed">Condensed</option>
+          <option value="system">System</option><option value="serif">Serif</option><option value="rounded">Rounded</option>
+          <option value="mono">Mono</option><option value="wide">Wide (readable)</option><option value="condensed">Condensed</option>
         </select></div>
-      <div class="grp"><label>Spacing</label><input type="range" id="spacing" min="100" max="240" step="5"><span class="val" id="spacingVal"></span></div>
-      <div class="grp"><label>Text</label><input type="color" id="color"></div>
-      <div class="grp"><label>Back</label><input type="color" id="bg"></div>
-      <div class="grp"><label>Marker</label><input type="color" id="hl"></div>
-      <div class="grp"><label>Timed (sec)</label><input type="number" id="duration" min="0" max="7200" step="5" inputmode="numeric"></div>
-      <button class="toggle" id="cdBtn">Countdown</button>
-      <button class="toggle" id="alignBtn">Center</button>
-      <button class="toggle" id="rtlBtn">RTL</button>
-      <button class="toggle" id="voiceBtn">🎙 Voice follow</button>
-      <button class="toggle" id="camBtn">📷 Camera</button>
-      <button class="toggle" id="flipCamBtn">⟲ Cam</button>
-      <div class="grp"><label>Dim cam</label><input type="range" id="dimR" min="0" max="90" step="5"><span class="val" id="dimRVal"></span></div>
-      <button class="btn" id="rewindBtn">⏮ Top</button>
-      <button class="btn" id="resetBtn">Reset look</button>
+      <div class="srow"><span>Size</span><input type="range" id="size" min="24" max="160" step="2"><span class="val" id="sizeVal"></span></div>
+      <div class="srow"><span>Spacing</span><input type="range" id="spacing" min="100" max="240" step="5"><span class="val" id="spacingVal"></span></div>
+      <div class="srow"><span>Margins</span><input type="range" id="margin" min="0" max="30" step="1"><span class="val" id="marginVal"></span></div>
+      <div class="srow"><span>Line</span><input type="range" id="guidePos" min="10" max="70" step="1"><span class="val" id="guideVal"></span></div>
+      <div class="srow"><span>Text colour</span><input type="color" id="color"></div>
+      <div class="srow"><span>Background</span><input type="color" id="bg"></div>
+      <div class="srow"><span>Marker</span><input type="color" id="hl"></div>
+    </div>
+    <div class="sec">Display</div>
+    <div class="card">
+      <div class="srow"><span>Mirror</span><button class="sw" id="mirrorXBtn" aria-label="Mirror"></button></div>
+      <div class="srow"><span>Flip upside down</span><button class="sw" id="mirrorYBtn" aria-label="Flip"></button></div>
+      <div class="srow"><span>Centre text</span><button class="sw" id="alignBtn" aria-label="Centre"></button></div>
+      <div class="srow"><span>Right-to-left</span><button class="sw" id="rtlBtn" aria-label="RTL"></button></div>
+      <div class="srow"><span>Fullscreen</span><button class="pill" id="fsBtn">Toggle</button></div>
+    </div>
+    <div class="sec">Scrolling</div>
+    <div class="card">
+      <div class="srow"><span>Tap to scroll</span><button class="sw" id="tapBtn" aria-label="Tap to scroll"></button></div>
+      <div class="srow"><span>Hide controls while scrolling</span><button class="sw" id="hideBtn" aria-label="Hide controls"></button></div>
+      <div class="srow"><span>Voice follow</span><button class="sw" id="voiceBtn" aria-label="Voice follow"></button></div>
+      <div class="srow"><span>Countdown</span><button class="pill" id="cdBtn">Countdown</button></div>
+      <div class="srow"><span>Timed (sec)</span><input type="number" id="duration" min="0" max="7200" step="5" inputmode="numeric" placeholder="off"></div>
+    </div>
+    <div class="sec">Camera</div>
+    <div class="card">
+      <div class="srow"><span>Switch camera</span><button class="pill" id="flipCamBtn">Front / Rear</button></div>
+      <div class="srow"><span>Dim</span><input type="range" id="dimR" min="0" max="90" step="5"><span class="val" id="dimRVal"></span></div>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="srow"><span>Reset look</span><button class="pill" id="resetBtn">Reset</button></div></div>
+  </div>
+
+  <div id="hud">
+    <div class="bar">
+      <button class="ibtn" id="moreBtn" aria-label="Settings">⚙</button>
+      <span class="sp" style="flex:0 0 8px"></span>
+      <button class="ibtn" id="revBtn" aria-label="Reverse direction" title="Reverse">⇅</button>
+      <button class="ibtn" id="toStartBtn" aria-label="Go to start" title="Go to start">⇤</button>
+      <button id="playBtn" aria-label="Play">START</button>
+      <button class="ibtn" id="toEndBtn" aria-label="Go to end" title="Go to end">⇥</button>
+      <span class="sp"></span>
+      <button class="ibtn" id="camBtn" aria-label="Camera" title="Camera">📹</button>
+      <div id="speedWrap"><span class="em">🐢</span><input type="range" id="speed" min="1" max="100" step="1"><span class="em">🐇</span><span id="speedVal"></span></div>
     </div>
   </div>
   <div id="editPane" class="hidden">
@@ -245,12 +281,13 @@ const store = {
 };
 
 const defaults = {
-  speed:30, size:64, margin:8, guide:35, spacing:135,
+  speed:18, size:60, margin:6, guide:34, spacing:135, tapScroll:true, hideWhile:true, reverse:false,
   mirrorX:false, mirrorY:false, countdown:3, center:false, rtl:false,
-  font:"system", color:"#ffffff", bg:"#000000", hl:"#ffcc33",
+  font:"system", color:"#ffffff", bg:"#3a3a3a", hl:"#f5a623",
   duration:0, voice:false, camera:false, facing:"user", dimR:35
 };
 let settings = Object.assign({}, defaults, store.get(LS_SETTINGS, {}));
+if (!settings.v || settings.v < 2) Object.assign(settings, { speed:18, size:60, margin:6, guide:34, bg:"#3a3a3a", hl:"#f5a623", v:2 });
 if (typeof settings.countdown === "boolean") settings.countdown = settings.countdown ? 3 : 0;
 const saveSettings = () => store.set(LS_SETTINGS, settings);
 
@@ -472,8 +509,9 @@ function applySettings(){
   mirrorWrap.classList.toggle("flipY", s.mirrorY);
   $("#dim").style.opacity = s.camera ? s.dimR / 100 : 0;
   const on = (id, v) => $(id).classList.toggle("on", !!v);
-  on("#mirrorXBtn", s.mirrorX); on("#mirrorYBtn", s.mirrorY); on("#cdBtn", s.countdown);
+  on("#mirrorXBtn", s.mirrorX); on("#mirrorYBtn", s.mirrorY);
   on("#alignBtn", s.center); on("#rtlBtn", s.rtl); on("#voiceBtn", s.voice); on("#camBtn", s.camera);
+  on("#tapBtn", s.tapScroll); on("#hideBtn", s.hideWhile); on("#revBtn", s.reverse); on("#moreBtn", !$("#more").classList.contains("hidden"));
   $("#cdBtn").textContent = s.countdown ? `Countdown ${s.countdown}s` : "Countdown off";
   $("#font").value = s.font; $("#color").value = s.color; $("#bg").value = s.bg; $("#hl").value = s.hl;
   $("#duration").value = s.duration || "";
@@ -510,8 +548,9 @@ function tick(t){
     if (settings.voice) {
       pos += (voiceTarget - pos) * Math.min(1, dt * 4);
     } else {
-      pos += pxPerSec() * dt;
+      pos += (settings.reverse ? -1 : 1) * pxPerSec() * dt;
       if (pos >= maxPos) { pos = maxPos; pause(); }
+      else if (pos <= 0) { pos = 0; pause(); }
     }
     draw();
   }
@@ -662,10 +701,11 @@ $("#editDone").onclick = () => closeEdit(true);
 /* ---------- Playback ---------- */
 function play(){
   if (playing || cdTimer) return;
-  if (!settings.voice && pos >= maxPos) { pos = 0; elapsed = 0; }
+  if (!settings.voice && !settings.reverse && pos >= maxPos) { pos = 0; elapsed = 0; }
+  if (!settings.voice && settings.reverse && pos <= 0) { pos = maxPos; }
   const go = () => {
     playing = true; lastT = performance.now(); voiceTarget = pos;
-    playBtn.textContent = "❚❚"; playBtn.setAttribute("aria-label", "Pause");
+    playBtn.textContent = "PAUSE"; playBtn.setAttribute("aria-label", "Pause");
     if (settings.voice) startVoice();
     scheduleFade();
   };
@@ -679,7 +719,7 @@ function play(){
 }
 function pause(){
   if (cdTimer) { clearInterval(cdTimer); cdTimer = 0; cdEl.classList.add("hidden"); }
-  playing = false; stopVoice(); playBtn.textContent = "▶"; playBtn.setAttribute("aria-label", "Play"); showHud();
+  playing = false; stopVoice(); playBtn.textContent = "START"; playBtn.setAttribute("aria-label", "Play"); showHud();
 }
 const toggle = () => (playing || cdTimer) ? pause() : play();
 
@@ -687,7 +727,7 @@ let fadeT;
 function showHud(){ hud.classList.remove("faded"); topbar.classList.remove("faded"); clearTimeout(fadeT); if (playing) scheduleFade(); }
 function scheduleFade(){
   clearTimeout(fadeT);
-  fadeT = setTimeout(() => { if (playing && $("#more").classList.contains("hidden")) { hud.classList.add("faded"); topbar.classList.add("faded"); } }, 2500);
+  fadeT = setTimeout(() => { if (playing && settings.hideWhile && $("#more").classList.contains("hidden")) { hud.classList.add("faded"); topbar.classList.add("faded"); } }, 2500);
 }
 
 async function openPrompter(){
@@ -695,6 +735,8 @@ async function openPrompter(){
   $("#editor").classList.add("hidden");
   prompter.classList.remove("hidden");
   pos = 0; elapsed = 0; playing = false;
+  $("#pTitle").textContent = active().title || "Untitled script";
+  moreEl.classList.add("hidden");
   renderText(); applySettings(); showHud(); requestWake();
   cancelAnimationFrame(raf); lastT = performance.now(); raf = requestAnimationFrame(tick);
   setTimeout(measure, 50);
@@ -712,8 +754,16 @@ function closePrompter(){
 $("#startBtn").onclick = openPrompter;
 $("#exitBtn").onclick = closePrompter;
 playBtn.onclick = e => { e.stopPropagation(); toggle(); };
-$("#rewindBtn").onclick = () => { pause(); pos = 0; elapsed = 0; wordIdx = 0; voiceTarget = 0; draw(); };
-$("#moreBtn").onclick = () => { $("#more").classList.toggle("hidden"); $("#moreBtn").classList.toggle("on", !$("#more").classList.contains("hidden")); };
+$("#toStartBtn").onclick = () => { pos = 0; elapsed = 0; wordIdx = 0; voiceTarget = 0; draw(); showHud(); };
+$("#toEndBtn").onclick = () => { pos = maxPos; voiceTarget = pos; draw(); showHud(); };
+$("#revBtn").onclick = flipRev;
+function flipRev(){ settings.reverse = !settings.reverse; saveSettings(); applySettings(); toast(settings.reverse ? "Scrolling backwards" : "Scrolling forwards", 1400); }
+const moreEl = $("#more");
+function setMore(open){ moreEl.classList.toggle("hidden", !open); $("#moreBtn").classList.toggle("on", open); showHud(); }
+$("#moreBtn").onclick = () => setMore(moreEl.classList.contains("hidden"));
+$("#moreClose").onclick = () => setMore(false);
+$("#tapBtn").onclick = () => { settings.tapScroll = !settings.tapScroll; saveSettings(); applySettings(); };
+$("#hideBtn").onclick = () => { settings.hideWhile = !settings.hideWhile; saveSettings(); applySettings(); };
 $("#resetBtn").onclick = () => { if (!confirm("Reset fonts, colours and sizes to default?")) return; const cam = settings.camera; settings = Object.assign({}, defaults, { camera: cam }); saveSettings(); applySettings(); };
 const flip = k => () => { settings[k] = !settings[k]; saveSettings(); applySettings(); };
 $("#mirrorXBtn").onclick = flip("mirrorX"); $("#mirrorYBtn").onclick = flip("mirrorY");
@@ -742,13 +792,14 @@ for (const [id, key] of [["speed","speed"],["size","size"],["margin","margin"],[
 $("#font").onchange = e => { const f = maxPos ? pos / maxPos : 0; settings.font = e.target.value; saveSettings(); applySettings(); pos = f * maxPos; draw(); };
 for (const k of ["color","bg","hl"]) $("#"+k).addEventListener("input", e => { settings[k] = e.target.value; saveSettings(); applySettings(); });
 $("#duration").addEventListener("input", e => { settings.duration = Math.max(0, +e.target.value || 0); saveSettings(); applySettings(); });
-[hud, topbar, $("#recDone"), editPane].forEach(el => el.addEventListener("pointerdown", e => { e.stopPropagation(); showHud(); }));
+[hud, topbar, moreEl, $("#recDone"), editPane].forEach(el => el.addEventListener("pointerdown", e => { e.stopPropagation(); showHud(); }));
 
 /* Touch: tap = play/pause, drag = scrub, pinch = font size */
 const pointers = new Map();
 let dragStartY = 0, dragStartPos = 0, moved = false, pinchStart = 0, pinchSize = 0;
 prompter.addEventListener("pointerdown", e => {
-  if (hud.contains(e.target) || topbar.contains(e.target) || $("#recDone").contains(e.target) || editPane.contains(e.target)) return;
+  if (hud.contains(e.target) || topbar.contains(e.target) || moreEl.contains(e.target) || $("#recDone").contains(e.target) || editPane.contains(e.target)) return;
+  if (!moreEl.classList.contains("hidden")) { setMore(false); return; }
   pointers.set(e.pointerId, [e.clientY, e.clientX]);
   if (pointers.size === 1) { dragStartY = e.clientY; dragStartPos = pos; moved = false; }
   if (pointers.size === 2) { pinchStart = pinchDist(); pinchSize = settings.size; moved = true; }
@@ -777,7 +828,7 @@ function endPointer(e){
   const wasSingle = pointers.size === 1;
   pointers.delete(e.pointerId);
   if (pinchStart && pointers.size < 2) { pinchStart = 0; saveSettings(); }
-  if (wasSingle && !moved && !prompter.classList.contains("hidden")) toggle();
+  if (wasSingle && !moved && settings.tapScroll && !prompter.classList.contains("hidden")) toggle();
 }
 window.addEventListener("pointerup", endPointer);
 window.addEventListener("pointercancel", e => { pointers.delete(e.pointerId); pinchStart = 0; });
@@ -809,7 +860,7 @@ window.addEventListener("keydown", e => {
 
 window.addEventListener("resize", () => { if (!prompter.classList.contains("hidden")) { const f = maxPos ? pos/maxPos : 0; measure(); pos = f*maxPos; draw(); } });
 
-const BUILD = 11;
+const BUILD = 12;
 if (navigator.standalone || matchMedia("(display-mode: standalone)").matches) document.documentElement.classList.add("standalone");
 $("#buildTxt").textContent = "Build " + BUILD;
 $("#updateBtn").onclick = async () => {
