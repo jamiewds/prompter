@@ -176,7 +176,7 @@ Tips:
       <div class="grp"><label>Speed</label><input type="range" id="speed" min="1" max="100" step="1"><span class="val" id="speedVal"></span></div>
       <div class="grp"><label>Size</label><input type="range" id="size" min="24" max="160" step="2"><span class="val" id="sizeVal"></span></div>
       <div class="grp"><label>Margin</label><input type="range" id="margin" min="0" max="30" step="1"><span class="val" id="marginVal"></span></div>
-      <div class="grp"><label>Line</label><input type="range" id="guide" min="10" max="70" step="1"><span class="val" id="guideVal"></span></div>
+      <div class="grp"><label>Line</label><input type="range" id="guidePos" min="10" max="70" step="1"><span class="val" id="guideVal"></span></div>
       <button class="toggle rec" id="recBtn">● Rec</button>
       <button class="toggle" id="moreBtn">⚙ More</button>
     </div>
@@ -459,9 +459,9 @@ function applySettings(){
   $("#cdBtn").textContent = s.countdown ? `Countdown ${s.countdown}s` : "Countdown off";
   $("#font").value = s.font; $("#color").value = s.color; $("#bg").value = s.bg; $("#hl").value = s.hl;
   $("#duration").value = s.duration || "";
-  for (const [id, key, fmt] of [["speed","speed",v=>v],["size","size",v=>v],["margin","margin",v=>v+"%"],["guide","guide",v=>v+"%"],
+  for (const [id, key, fmt] of [["speed","speed",v=>v],["size","size",v=>v],["margin","margin",v=>v+"%"],["guidePos","guide",v=>v+"%"],
                                 ["spacing","spacing",v=>(v/100).toFixed(2)],["dimR","dimR",v=>v+"%"]]) {
-    $("#"+id).value = s[key]; $("#"+id+"Val").textContent = fmt(s[key]);
+    $("#"+id).value = s[key]; $("#"+(id === "guidePos" ? "guide" : id)+"Val").textContent = fmt(s[key]);
   }
   $("#speed").disabled = s.duration > 0 || s.voice;
   measure();
@@ -674,7 +674,7 @@ $("#fsBtn").onclick = () => {
   if (document.fullscreenElement) document.exitFullscreen?.();
   else (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el);
 };
-for (const [id, key] of [["speed","speed"],["size","size"],["margin","margin"],["guide","guide"],["spacing","spacing"],["dimR","dimR"]]) {
+for (const [id, key] of [["speed","speed"],["size","size"],["margin","margin"],["guidePos","guide"],["spacing","spacing"],["dimR","dimR"]]) {
   $("#"+id).addEventListener("input", e => {
     const frac = maxPos ? pos / maxPos : 0;
     settings[key] = +e.target.value; saveSettings(); applySettings();
