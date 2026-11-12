@@ -213,7 +213,8 @@ Tips:
       <div class="srow"><span>Line</span><input type="range" id="guidePos" min="10" max="70" step="1"><span class="val" id="guideVal"></span></div>
       <div class="srow"><span>Text colour</span><input type="color" id="color"></div>
       <div class="srow"><span>Background</span><input type="color" id="bg"></div>
-      <div class="srow"><span>Marker</span><input type="color" id="hl"></div>
+      <div class="srow"><span>Marker colour</span><input type="color" id="hl"></div>
+      <div class="srow"><span>Show marker</span><button class="sw" id="markerBtn" aria-label="Show marker"></button></div>
     </div>
     <div class="sec">Display</div>
     <div class="card">
@@ -281,7 +282,7 @@ const store = {
 };
 
 const defaults = {
-  speed:18, size:60, margin:6, guide:34, spacing:135, tapScroll:true, hideWhile:true, reverse:false,
+  speed:18, size:60, margin:6, guide:34, spacing:135, tapScroll:true, hideWhile:true, marker:true, reverse:false,
   mirrorX:false, mirrorY:false, countdown:3, center:false, rtl:false,
   font:"system", color:"#ffffff", bg:"#3a3a3a", hl:"#f5a623",
   duration:0, voice:false, camera:false, facing:"user", dimR:35
@@ -505,6 +506,8 @@ function applySettings(){
   textEl.dir = s.rtl ? "rtl" : "ltr";
   textEl.style.textAlign = s.center ? "center" : (s.rtl ? "right" : "left");
   guideEl.style.top = s.guide + "%";
+  guideEl.style.display = s.marker ? "" : "none";
+  $("#markerBtn").classList.toggle("on", !!s.marker);
   mirrorWrap.classList.toggle("flipX", s.mirrorX);
   mirrorWrap.classList.toggle("flipY", s.mirrorY);
   $("#dim").style.opacity = s.camera ? s.dimR / 100 : 0;
@@ -762,6 +765,7 @@ const moreEl = $("#more");
 function setMore(open){ moreEl.classList.toggle("hidden", !open); $("#moreBtn").classList.toggle("on", open); showHud(); }
 $("#moreBtn").onclick = () => setMore(moreEl.classList.contains("hidden"));
 $("#moreClose").onclick = () => setMore(false);
+$("#markerBtn").onclick = () => { settings.marker = !settings.marker; saveSettings(); applySettings(); };
 $("#tapBtn").onclick = () => { settings.tapScroll = !settings.tapScroll; saveSettings(); applySettings(); };
 $("#hideBtn").onclick = () => { settings.hideWhile = !settings.hideWhile; saveSettings(); applySettings(); };
 $("#resetBtn").onclick = () => { if (!confirm("Reset fonts, colours and sizes to default?")) return; const cam = settings.camera; settings = Object.assign({}, defaults, { camera: cam }); saveSettings(); applySettings(); };
@@ -860,7 +864,7 @@ window.addEventListener("keydown", e => {
 
 window.addEventListener("resize", () => { if (!prompter.classList.contains("hidden")) { const f = maxPos ? pos/maxPos : 0; measure(); pos = f*maxPos; draw(); } });
 
-const BUILD = 12;
+const BUILD = 13;
 if (navigator.standalone || matchMedia("(display-mode: standalone)").matches) document.documentElement.classList.add("standalone");
 $("#buildTxt").textContent = "Build " + BUILD;
 $("#updateBtn").onclick = async () => {
